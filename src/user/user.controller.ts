@@ -13,17 +13,22 @@ import { CreateUserDto, UserIdDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { hasRoles } from 'src/utils/decorator/role.decorator';
+import { UserRole } from 'src/auth/dto/auth.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
-@UseGuards(JwtGuard)
+@UseGuards(JwtGuard, RoleGuard)
+@hasRoles(UserRole.Admin)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    console.log(createUserDto);
+    // return this.userService.create(createUserDto);
   }
 
   @Get()

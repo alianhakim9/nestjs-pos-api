@@ -10,10 +10,15 @@ import { UniqueValidator } from './utils/validator/unique-validator';
 import { AuthModule } from './auth/auth.module';
 import { ProdukModule } from './produk/produk.module';
 import { Produk } from './produk/entities/produk.entity';
+import * as Joi from '@hapi/joi';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        UPLOADED_FILES_DESTINATION: Joi.string().required(),
+      }),
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,

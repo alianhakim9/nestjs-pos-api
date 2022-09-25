@@ -2,6 +2,7 @@ import { OmitType, PickType } from '@nestjs/swagger';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -49,7 +50,8 @@ export class UserDto {
   password: string;
   created_at: Date;
   updated_at: Date;
-  role: UserRole = UserRole.User;
+  @IsEnum(UserRole)
+  role: UserRole;
 }
 
 // omit membuang id

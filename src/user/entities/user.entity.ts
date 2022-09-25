@@ -40,5 +40,5 @@ export class User {
     enum: UserRole,
     default: UserRole.User,
   })
-  role: UserRole = UserRole.User;
+  role: UserRole;
 }

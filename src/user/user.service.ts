@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
@@ -30,7 +30,7 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {
       const updatedPassword = this.hashPassword(updateUserDto.password);
       updateUserDto.password = updatedPassword;
@@ -58,6 +58,7 @@ export class UserService {
       where: {
         username: username,
       },
+      select: ['id', 'username', 'password'],
     });
   }
 }

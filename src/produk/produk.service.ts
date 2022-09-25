@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateProdukDto } from './dto/create-produk.dto';
+import { CreateProdukDto, ProdukDto } from './dto/create-produk.dto';
 import { UpdateProdukDto } from './dto/update-produk.dto';
 import { Produk } from './entities/produk.entity';
 
@@ -17,7 +17,19 @@ export class ProdukService {
   }
 
   findAll() {
-    return this.produkRepository.find();
+    return this.produkRepository
+      .find({
+        relations: ['user'],
+      })
+      .then((produk: ProdukDto[]) => {
+        produk.map((prod) => {
+          delete prod.user.password;
+          delete prod.user.username;
+          delete prod.user.email;
+          return prod;
+        });
+        return produk;
+      });
   }
 
   findOne(id: number) {

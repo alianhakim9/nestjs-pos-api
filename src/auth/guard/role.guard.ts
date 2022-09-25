@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { map, Observable } from 'rxjs';
-import { UserDto } from 'src/user/dto/create-user.dto';
+import { Observable } from 'rxjs';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
