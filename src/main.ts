@@ -35,7 +35,9 @@ async function bootstrap() {
     },
   };
 
-  app.enableCors();
+  app.enableCors({
+    credentials: true,
+  });
 
   const doc = SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup('/api/docs', app, doc, configCustomSwagger);

@@ -31,8 +31,6 @@ export class AuthService {
     // masukan data yang akan dimasukan ke dalam token
     const dataToken = { id: user.id };
     const token = this.jwtService.sign(dataToken);
-    return {
-      token: token,
-    };
+    return token;
   }
 }

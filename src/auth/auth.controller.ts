@@ -3,11 +3,13 @@ import {
   Controller,
   Get,
   Post,
-  Req,
-  Request,
+  Res,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { JwtGuard } from './guard/jwt.guard';
@@ -25,15 +27,37 @@ export class AuthController {
   }
 
   @Post()
-  async login(@Body() authDto: AuthDto) {
+  async login(
+    @Body() authDto: AuthDto,
+    @Res({
+      passthrough: true,
+    })
+    response: Response,
+  ) {
     const user = await this.authService.checkUser(
       authDto.username,
       authDto.password,
     );
     if (user) {
-      return this.authService.generateToken({
+      const token = await this.authService.generateToken({
         id: user.id,
       });
+
+      console.log(token);
+
+      response.cookie('bearer', token, { httpOnly: true });
+
+      return {
+        token: token,
+      };
     }
+  }
+
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('bearer');
+    return {
+      message: 'success',
+    };
   }
 }
