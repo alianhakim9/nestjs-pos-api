@@ -10,10 +10,10 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   create(createUserDto: CreateUserDto) {
-    const hashedPassword = this.hashPassword(createUserDto.password);
+    const hashedPassword = this.hashData(createUserDto.password);
     createUserDto.password = hashedPassword;
     return this.userRepository.save(createUserDto);
   }
@@ -32,7 +32,7 @@ export class UserService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {
-      const updatedPassword = this.hashPassword(updateUserDto.password);
+      const updatedPassword = this.hashData(updateUserDto.password);
       updateUserDto.password = updatedPassword;
     }
     return this.userRepository.update(id, updateUserDto);
@@ -43,9 +43,9 @@ export class UserService {
     this.userRepository.remove(user);
   }
 
-  hashPassword(password: string) {
-    const hashedPassword = bcrypt.hashSync(password, 12);
-    return hashedPassword;
+  hashData(data: string) {
+    const hashedData = bcrypt.hashSync(data, 12);
+    return hashedData;
   }
 
   compare(password, hashPassword) {

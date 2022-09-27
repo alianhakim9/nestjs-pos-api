@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { UserRole } from 'src/auth/dto/auth.dto';
 import { Produk } from 'src/produk/entities/produk.entity';
 import {
@@ -41,4 +42,8 @@ export class User {
     default: UserRole.User,
   })
   role: UserRole;
+
+  @Column({ nullable: true })
+  @Exclude()
+  refresh_token?: string
 }

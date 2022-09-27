@@ -48,13 +48,18 @@ export class UserDto {
   @MinLength(8)
   @MaxLength(32)
   password: string;
+
   created_at: Date;
   updated_at: Date;
+
   @IsEnum(UserRole)
   role: UserRole;
+
+  @IsOptional()
+  refresh_token?: string
 }
 
 // omit membuang id
-export class CreateUserDto extends OmitType(UserDto, ['id']) {}
+export class CreateUserDto extends OmitType(UserDto, ['id']) { }
 // pick mengambil id
-export class UserIdDto extends PickType(UserDto, ['id']) {}
+export class UserIdDto extends PickType(UserDto, ['id']) { }

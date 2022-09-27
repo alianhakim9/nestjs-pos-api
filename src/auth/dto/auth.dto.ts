@@ -18,4 +18,5 @@ export class AuthDto {
 export enum UserRole {
   User = 'user',
   Admin = 'admin',
+  SUPER_ADMIN = "super-admin"
 }
