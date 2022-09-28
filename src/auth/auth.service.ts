@@ -37,7 +37,6 @@ export class AuthService {
     // check if user exists
     if (user) {
       const passwordMatches = this.userService.compare(data.password, user.password);
-      console.log(passwordMatches);
       if (!passwordMatches) throw new BadRequestException("password salah");
       const tokens = await this.getToken(user.id);
       await this.updateRefreshToken(user.id, tokens.refreshToken);
@@ -122,5 +121,14 @@ export class AuthService {
     if (!refreshTokenMatches) throw new ForbiddenException("Access Denied");
     const tokens = await this.getToken(userId);
     return tokens;
+  }
+
+  async getUserName(userId: number) {
+    const name = await this.userService.findOne(userId).then((user) => {
+      return user.nama_user
+    })
+    return {
+      data: name
+    };
   }
 }

@@ -19,15 +19,14 @@ import { UserRole } from 'src/auth/dto/auth.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
-// @UseGuards(JwtGuard, RoleGuard)
-// @hasRoles(UserRole.Admin)
+@UseGuards(JwtGuard, RoleGuard)
+@hasRoles(UserRole.SUPER_ADMIN)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto);
     return this.userService.create(createUserDto);
   }
 

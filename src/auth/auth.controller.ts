@@ -87,4 +87,13 @@ export class AuthController {
     const refresh_token = req.user['refreshToken'];
     return this.authService.refreshToken(userId, refresh_token);
   }
+
+  @UseGuards(JwtGuard)
+  @Get("user/name")
+  getUserName(
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.authService.getUserName(userId);
+  }
 }
