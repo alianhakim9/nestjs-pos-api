@@ -10,7 +10,7 @@ export class ProdukService {
   constructor(
     @InjectRepository(Produk)
     private readonly produkRepository: Repository<Produk>,
-  ) {}
+  ) { }
 
   create(createProdukDto: CreateProdukDto) {
     return this.produkRepository.save(createProdukDto);
@@ -26,6 +26,7 @@ export class ProdukService {
           delete prod.user.password;
           delete prod.user.username;
           delete prod.user.email;
+          delete prod.user.refresh_token;
           return prod;
         });
         return produk;
